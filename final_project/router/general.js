@@ -11,7 +11,8 @@ public_users.post("/register", (req, res) => {
       .status(400)
       .json({ message: "username or password are Missing" });
   }
-  if (users.find((user) => user.username === username)) {
+  // if(  users.find((user) => user.username === username)){
+  if (!isValid(username)) {
     return res.status(409).json({ message: "Username already exists" });
   }
   users.push({ username, password });

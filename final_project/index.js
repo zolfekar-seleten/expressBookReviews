@@ -18,14 +18,15 @@ app.use(
 );
 
 app.use("/customer/auth/*", function auth(req, res, next) {
-  const token = req.headers.authorization;
+  const token = req.session.accessToken;
   if (!token) {
     return res.status(401).json({ message: "Access token not provided" });
   }
 
   jwt.verify(token, "fingerprint_customer", (err, user) => {
     if (!err) {
-      req.user = user;
+      req.session.user = user;
+
       next();
     } else {
       return res.status(401).json({ message: "Invalid access token" });
